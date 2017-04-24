@@ -1,0 +1,45 @@
+{
+  "name": "symlink-resolver",
+  "version": "0.1.0",
+  "description": "Simple tool for replacing symlinks by real files and vice versa.",
+  "main": "index.js",
+  "bin": {
+    "symlink-resolver": "node symlink-resolver.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/es6-promise": "0.0.32",
+    "@types/node": "^7.0.13",
+    "typescript": "^2.2.2"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "build": "npm run tsc **.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielKucal/symlink-resolver.git"
+  },
+  "keywords": [
+    "symlink",
+    "symlinks",
+    "build-tool",
+    "nativescript",
+    "resolver",
+    "replace",
+    "real",
+    "files"
+  ],
+  "author": "Daniel Kucal <dkucal@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanielKucal/symlink-resolver/issues"
+  },
+  "homepage": "https://github.com/DanielKucal/symlink-resolver#readme",
+  "engines": {
+    "node": ">= 6.4.0",
+    "npm": ">= 3"
+  }
+}
