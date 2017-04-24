@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-var path = require("path");
 var child_process = require("child_process");
 var config_1 = require("./config");
 /**
@@ -54,6 +53,5 @@ if (script && typeof scripts[script] === 'function') {
     scripts[script]();
 }
 else {
-    console.log(scripts[script]);
-    console.error('USAGE: node ' + path.basename(process.argv[1]) + ' build|clear');
+    console.error('USAGE: Please provide arguments like this: build|clear symlinks/path');
 }

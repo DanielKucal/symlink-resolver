@@ -1,4 +1,3 @@
-import * as path from 'path';
 import * as child_process from 'child_process';
 import { Config } from './config';
 
@@ -57,6 +56,5 @@ scripts.clear = () => {
 if (script && typeof scripts[script] === 'function') {
     scripts[script]();
 } else {
-    console.log(scripts[script]);
-    console.error('USAGE: node ' + path.basename(process.argv[1]) + ' build|clear');
+    console.error('USAGE: Please provide arguments like this: build|clear symlinks/path');
 }
