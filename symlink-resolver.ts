@@ -14,36 +14,34 @@ import { Config } from './config';
  * @Author Daniel Kucal <dkucal@gmail.com> www.danielkucal.com
  */
 
+let helper = new (Config.helperClass)(Config.rootDir);
 let script = process.argv[2];
 let scripts: any = {};
 
 scripts.build = () => {
-    console.log('Preparing build files...');
-    let builder = new (Config.helperClass)(Config.rootDir);
-    builder.findSymlinks(Config.rootDir).then(files => {
+    console.log('Replacing symlinks by real files...');
+    helper.findSymlinks(Config.rootDir).then(files => {
         if (!Object.keys(files).length) {
             return console.error('No single symlink was found! Did you mean to clear?');
         }
-        console.log('symlinks found, saving...');
-        builder.saveSymlinks(files);
+        helper.saveSymlinks(files);
 
         // TODO: Move to the helper class
         for (let file of Object.keys(files)) {
-            let symlink = builder.getRelativeSymlink(files[file]);
-            builder.copyFile(symlink, file);
+            let symlink = helper.getRelativePath(files[file]);
+            helper.copyFile(symlink, file);
         }
     });
 };
 
 scripts.clear = () => {
-    console.log('Cleaning up after build...');
     let symlinksPath = Config.rootDir + Config.symlinksFile;
-    const savedSymlinks = require(symlinksPath);
+    let savedSymlinks = helper.getSavedSymlinks();
     if (!savedSymlinks) {
         return console.error('File ' + symlinksPath +
             ' doesn\'t exist! Did you mean to build?');
     }
-
+    console.log('Restoring symlinks...');
     // TODO: move to the helper class
     Object.keys(savedSymlinks).forEach(file => {
         let symlink = savedSymlinks[file];
@@ -56,5 +54,5 @@ scripts.clear = () => {
 if (script && typeof scripts[script] === 'function') {
     scripts[script]();
 } else {
-    console.error('USAGE: Please provide arguments like this: build|clear symlinks/path');
+    console.error('USAGE: Please provide arguments in proper format: build|clear ./symlinks/path');
 }

@@ -11,8 +11,16 @@ export class SymlinkHelper {
     public nestingLevel: number = 0;
 
     constructor(rootDir: string) {
-        if (rootDir)
-        this.nestingLevel = Config.rootDir.split('/').length - 1;
+        let startsWithSlash = false;
+        if (rootDir.startsWith('./')) {
+            startsWithSlash = true;
+        } else if (rootDir.startsWith('../')) {
+            startsWithSlash = true;
+        }
+        if (!startsWithSlash) {
+            throw new Error('Directory name has to start with any of: ./, ../');
+        }
+        this.nestingLevel = rootDir.split('/').length - 1;
     }
     /**
      * Fetches all symlinks in given directory recursively
@@ -35,7 +43,7 @@ export class SymlinkHelper {
                         }
                         if (stat && stat.isDirectory()) {
                             this.findSymlinks(file).then(childLinks => {
-                                symlinks = (<any>Object).assign(symlinks, childLinks);
+                                symlinks = Object.assign({}, symlinks, childLinks);
                                 if (!--pending) resolve(symlinks);
                             });
                         } else {
@@ -48,6 +56,10 @@ export class SymlinkHelper {
     };
 
     public saveSymlinks(content: any): Promise<true> {
+        let savedSymlinks = this.getSavedSymlinks();
+        if (savedSymlinks) {
+            content = Object.assign({}, savedSymlinks, content);
+        }
         let stringified = JSON.stringify(content, null, '\t');
         return new Promise(resolve => {
             fs.writeFile(Config.rootDir + Config.symlinksFile, stringified, (err) => {
@@ -57,17 +69,24 @@ export class SymlinkHelper {
         });
     }
 
-    public copyFile(source: string, target: string) {
+    public copyFile(source: string, target: string): void {
         child_process.execSync('rm ' + target);
         child_process.execSync('mkdir -p ' + path.dirname(target));
         child_process.execSync('cp -R ' + path.resolve(source) + ' ' + target);
     }
 
-    public getRelativeSymlink(symlink: string): string {
+    public getRelativePath(path: string): string {
         for (let i = 0; i < this.nestingLevel; i++) {
-            symlink = symlink.replace('../', '');
+            path = path.replace('../', '');
         }
-        return symlink;
+        return path;
     }
 
+    public getSavedSymlinks(): Object {
+        let savedSymlinks: any = null;
+        try {
+            savedSymlinks = require('../../' + Config.rootDir + Config.symlinksFile);
+        } catch (e) { }
+        return savedSymlinks;
+    }
 }

@@ -7,7 +7,7 @@ export interface ConfigInterface {
 }
 
 export const Config: ConfigInterface = {
-    rootDir: '../../' + process.argv[3], // TODO: make sure path is provided
-    symlinksFile: './.symlinks.json',
+    rootDir: process.argv[3], // TODO: make sure path is provided
+    symlinksFile: '/.symlinks.json',
     helperClass: SymlinkHelper
 };
