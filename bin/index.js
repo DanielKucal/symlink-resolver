@@ -1,2 +1,5 @@
 #! /usr/bin/env node
-require('child_process').spawn('node', ['../symlink-resolver.js'], {stdio: 'inherit'});
+// console.log(process.argv);
+require('child_process').spawn('node',
+    ['./node_modules/symlink-resolver/symlink-resolver.js', process.argv[2], process.argv[3]],
+    {stdio: 'inherit' });
