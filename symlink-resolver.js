@@ -32,20 +32,13 @@ scripts.build = () => {
     });
 };
 scripts.clear = () => {
-    console.log('Restoring symlinks...');
     let symlinksPath = config_1.Config.rootDir + config_1.Config.symlinksFile;
     let savedSymlinks = helper.getSavedSymlinks();
-    /*try {
-        savedSymlinks = require('../../' + symlinksPath);
-    } catch (e) {
-        console.error('File ' + symlinksPath +
-            ' doesn\'t exist! Did you mean to build?');
-        throw e;
-    }*/
     if (!savedSymlinks) {
         return console.error('File ' + symlinksPath +
             ' doesn\'t exist! Did you mean to build?');
     }
+    console.log('Restoring symlinks...');
     // TODO: move to the helper class
     Object.keys(savedSymlinks).forEach(file => {
         let symlink = savedSymlinks[file];

@@ -3,7 +3,7 @@ This tool allows to replace symbolic links by real files in given directory and 
 
 ### Installation
 ```
-npm install symlink-resolver
+npm install symlink-resolver --save-dev
 ```
 [Node.js](https://nodejs.org/) v6.4+ and [POSIX](https://en.wikipedia.org/wiki/POSIX#POSIX-certified)-standarized operating system are required.
 

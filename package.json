@@ -1,6 +1,6 @@
 {
   "name": "symlink-resolver",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple tool for replacing symlinks by real files and vice versa.",
   "main": "index.js",
   "bin": {
