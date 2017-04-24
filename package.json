@@ -4,7 +4,7 @@
   "description": "Simple tool for replacing symlinks by real files and vice versa.",
   "main": "index.js",
   "bin": {
-    "symlink-resolver": "node symlink-resolver.js"
+    "symlink-resolver": "bin/index.js"
   },
   "dependencies": {},
   "devDependencies": {
